@@ -31,3 +31,5 @@ This means all of these values are selected by default in this script. I have in
 
 ## References:
 https://stackoverflow.com/questions/47158434/how-to-run-selenium-tests-on-the-brave-web-browser
+
+All credits go to the original author of NPM. No copyright or trademark infringement is intended.
