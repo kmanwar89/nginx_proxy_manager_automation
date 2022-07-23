@@ -20,14 +20,16 @@ This means all of these values are selected by default in this script. I have in
 ## Usage
 - This program depends on the [Selenium](https://www.selenium.dev/) browser automation suite. Refer to their documentation to install the appropriate drivers. *pip* will likely need to be installed in order to install the drivers.
 
-- I am using Brave, which is based on Chrome. In addition to the Selenium driver, download the specific driver for Chrome, which can be found [here](https://chromedriver.storage.googleapis.com/index.html). The version of Brave should match the Chrome version numbering, so download the appropriate driver and place it in the same folder as the Python script.
+- I am using Brave, which is based on Chrome. In addition to the Selenium driver, download the specific driver for Chrome, which can be found [here](https://chromedriver.storage.googleapis.com/index.html). The version of Brave should match the Chrome version numbering, so download the appropriate driver and place it in the same folder as the Python script. NOTE: You should obviously modify these instructions based on your browser - there are drivers for Safari, Firefox, etc. Adjust accordingly.
 
 - Modify the script to point to the path where the Chromedriver is located - I chose to copy mine to /usr/local/bin, but it can work just as well from within the same folder. Use absolute paths when specifying.
 
 - This was written on MacOS, but there's no reason it shouldn't work on Windows or Linux. Testing on those is TBD.
 
-## TODO: 
+## To-Do:
 [ ] - accept a list of domains & ports in CSV format to pass through, to quickly allow the creation of multiple entries
+[ ] - automatically look for Selenium webdriver files and, if not found, offer to automatically download them
+[ ] - refactor, better organize and clean-up the code; maybe some loops or logic can be used to click through multiple elements?
 
 ## References:
 https://stackoverflow.com/questions/47158434/how-to-run-selenium-tests-on-the-brave-web-browser
