@@ -8,9 +8,6 @@
 # Version 1.0 - Initial script, tested & working
     # TODO: accept a list of domains & ports in CSV format to pass through
 
-#from argparse import Action
-#from asyncio.constants import SENDFILE_FALLBACK_READBUFFER_SIZE
-#rom distutils.spawn import find_executable
 import time
 import getpass
 
