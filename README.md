@@ -20,7 +20,7 @@ This means all of these values are selected by default in this script. I have in
 ## Usage
 - This program depends on the [Selenium](https://www.selenium.dev/) browser automation suite. Refer to their documentation to install the appropriate drivers. *pip* will likely need to be installed in order to install the drivers.
 
-- I am using Brave, which is based on Chrome. In addition to the Selenium driver, download the specific driver for Chrome, which can be found [here](https://chromedriver.storage.googleapis.com/index.html). The version of Brave should match the Chrome version numbering, so download the appropriate driver and place it in the same folder as the Python script.
+- I am using Brave, which is based on Chrome. In addition to the Selenium driver, download the specific driver for Chrome, which can be found [here](https://chromedriver.storage.googleapis.com/index.html). The version of Brave should match the Chrome version numbering, so download the appropriate driver and place it in the same folder as the Python script. NOTE: You should obviously modify these instructions based on your browser - there are drivers for Safari, Firefox, etc. Adjust accordingly.
 
 - Modify the script to point to the path where the Chromedriver is located - I chose to copy mine to /usr/local/bin, but it can work just as well from within the same folder. Use absolute paths when specifying.
 
