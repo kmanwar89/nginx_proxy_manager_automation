@@ -28,7 +28,9 @@ This means all of these values are selected by default in this script. I have in
 
 ## To-Do:
 [ ] - accept a list of domains & ports in CSV format to pass through, to quickly allow the creation of multiple entries
+
 [ ] - automatically look for Selenium webdriver files and, if not found, offer to automatically download them
+
 [ ] - refactor, better organize and clean-up the code; maybe some loops or logic can be used to click through multiple elements?
 
 ## References:
