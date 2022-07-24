@@ -33,6 +33,8 @@ This means all of these values are selected by default in this script. I have in
 
 [ ] - refactor, better organize and clean-up the code; maybe some loops or logic can be used to click through multiple elements?
 
+[ ] - prompt for a server ID (statically and/or dynamically)
+
 ## References:
 https://stackoverflow.com/questions/47158434/how-to-run-selenium-tests-on-the-brave-web-browser
 

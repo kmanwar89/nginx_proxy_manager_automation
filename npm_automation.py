@@ -6,7 +6,11 @@
 # Date: 22 JUL 2022
 
 # Version 1.0 - Initial script, tested & working
-    # TODO: accept a list of domains & ports in CSV format to pass through
+    # TODO: 
+    # [ ] - accept a list of domains & ports in CSV format to pass through
+    # [ ] - automatically look for Selenium webdriver files and, if not found, offer to automatically download them
+    # [ ] - refactor, better organize and clean-up the code; maybe some loops or logic can be used to click through multiple elements?
+    # [ ] - prompt for a server ID (statically and/or dynamically)
 
 import time
 import getpass
@@ -26,8 +30,24 @@ def main():
     npm_user = input("Enter login username: ")
     npm_pass = getpass.getpass("Enter Password: ")
     npm_port = input("Enter Port #: ")
-    server_IP = "192.168.1.236"
     
+    # Pseudocode
+    # Start a loop
+    # Prompt the user to enter 1 for static, or 2 for dynamic IP
+    # If user chooses static, prompt ONCE for the IP address and assign to a variable. This should be used for every server IP entry in each host.
+    # If user chooses dynamic, prompt for the # of hosts 
+
+    x = 0
+    while x == 0:
+        choice = input("Please enter 1 to use a static server IP, or 2 for a dynamic IP.\
+             If dynamic is chosen, you will need to enter a server IP for each proxy host entry created in NPM")
+        if choice == "1":
+            x = 1 #end the loop
+            static_IP = input("Please enter the static server IP address: ")
+        else:
+            # Within this loop is where I would iterate a different dynamic IP for each host
+            dynamic_IP = input("Please enter a server IP for each host, one at a time: ")
+
     # Setup for selenium magic
     options = Options()
     options.binary_location = '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
@@ -50,7 +70,7 @@ def main():
 
     # IP address
     driver.find_element(By.XPATH, "//*[@id=\"details\"]/div/div[3]/div/input").click()
-    driver.find_element(By.XPATH, "//*[@id=\"details\"]/div/div[3]/div/input").send_keys(server_IP)
+    driver.find_element(By.XPATH, "//*[@id=\"details\"]/div/div[3]/div/input").send_keys(static_IP)
     driver.find_element(By.XPATH, "//*[@id=\"details\"]/div/div[3]/div/input").send_keys(Keys.ENTER)
 
     # Port #
