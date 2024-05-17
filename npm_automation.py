@@ -1,4 +1,4 @@
-# Purpose: Automation the clicking through in Nginx Proxy Manager (NPM) 
+# Purpose: Automate the clicking through in Nginx Proxy Manager (NPM) 
 # to add proxy hosts
 # Programmer: Kadar Anwar
 # Language: Python 3.8.9
