@@ -1,4 +1,6 @@
-# Automation for NPM reverse proxy manager
+# Archived 19 MAY 2024 in favor of new code
+
+## Automation for NPM reverse proxy manager
 
 ## Background
 I discovered the Reddit "self hosted" community and quickly went down a rabbit hole of self-hosting, reverse proxies and Docker (oh my!). I discovered Nginx Proxy Manager (NPM) as an easy-to-use GUI with the ability to quickly add proxy hosts behind a reverse proxy, and secure them automatically using Let's Encrypt. While this is much easier than editing cryptic nginx config files, it became tedious each time I added, changed, or removed a host, so I wanted to automate it.
