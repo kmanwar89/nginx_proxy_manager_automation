@@ -1,43 +1,65 @@
-# Automation for NPM reverse proxy manager
-
-## Background
-I discovered the Reddit "self hosted" community and quickly went down a rabbit hole of self-hosting, reverse proxies and Docker (oh my!). I discovered Nginx Proxy Manager (NPM) as an easy-to-use GUI with the ability to quickly add proxy hosts behind a reverse proxy, and secure them automatically using Let's Encrypt. While this is much easier than editing cryptic nginx config files, it became tedious each time I added, changed, or removed a host, so I wanted to automate it.
-
-Unfortunately, there is no API or CLI, though an issue is already open on the NPM github. I leveraged tools I've used in the past, such as Selenium and Python, to accomplish this task.  The code isn't the prettiest, but I think for <75 sloc, it's not as bad as it could be. There are probably many improvements that can consolidate it even further, and those will be a future endeavour.
+# NGINX Proxy Manager (NPM) Automation
 
 ## Purpose
-Automate the ability to create proxy hosts within NPM. Base (default) values that never change, at least in my setup, are:
+Automate the ability to create proxy hosts within NPM using the built-in API and a static Cloudflare certificate
 
-- Base domain name
-- Server IP address
-- Block common exploits
-- Cache assets
-- Use a new Let's Encrypt certificate
-- All options under the "SSL" tab
-
-This means all of these values are selected by default in this script. I have included extensive comments, so it'd be trivial to identify where in the script each element is selected, and make appropriate selections accordingly should these defaults not work for you.
+## Prerequisites
+0. Register a domain, if you want this externally accessible, or setup DDNS/manual port-forwarding, etc. 
+1. NGINX Proxy Manager running/installed on a machine, accessible at a domain (or local URL)
+    - I am using Cloudflare Tunnels, but this could be tested locally before deploying
+    - I am also using NPM via Docker, with 80, 81 and 443 exposed
+2. User account created in NPM
+3. API key created against the user account in #2 - if not already generated, guidance is provided below
+4. The python-dotenv library (can be installed using *pip*)
 
 ## Usage
-- This program depends on the [Selenium](https://www.selenium.dev/) browser automation suite. Refer to their documentation to install the appropriate drivers. *pip* will likely need to be installed in order to install the drivers.
+1. Clone this repository and create a .env file in the same folder
+2. Fill out the following fields in the .env file:
+    - API_KEY - API key used with NPM
+        - sample cURL command to generate a 10 year token; adjust accordingly for 1d, 3m, 1y, etc.:
+        ```
+        curl --location 'https://yournpmurl.domain.com/api/tokens' \
+            --form 'identity="YOUR_EMAIL_HERE"' \
+            --form 'secret="YOUR_PASSWORD_HERE"'\
+            --form 'expiry="10y"'
+        ```
+    - BASE_URL - base URL where NPM is accessed with no trailing / at the end
+    - CERTIFICATE - optional - this is the certificate ID if a single certificate (i.e. Cloudflare Origin Server cert for CF Tunnels) is used
+        - sample cURL command to url/nginx/certs to retrieve this value as shown:
+        ```
+        curl --location 'https://yournpmurl.domain.com/api/nginx/certificates' \
+        --header 'Authorization: Bearer <BEARER_AUTH_TOKEN_HERE>'
+        ```
+        - Optionally, pipe the output through `jq` to parse just the certificate ID:
+        ```
+        curl --location 'https://npm.kadaranwar.com/api/nginx/certificates' \
+        --header 'Authorization: Bearer <BEARER_AUTH_TOKEN_HERE>' | jq '.[] | {id}'
+        ```
+        - This can be ommitted if Let'sEncrypt is used instead
+    - DOMAIN_NAME - your registered domain name, i.e. example.com
+3. Create a `proxy_hosts.csv` file containing the following:
+    ```
+    subdomain,schema,container_name,port
+    ```
+    - Example:
+        ```
+        port,https,portainer,9443
+        ```
+4. Once completed, run npm_api.py. It will automatically read through the CSV and, for each host listed, formulate the appropriate request to the NPM API
 
-- I am using Brave, which is based on Chrome. In addition to the Selenium driver, download the specific driver for Chrome, which can be found [here](https://chromedriver.storage.googleapis.com/index.html). The version of Brave should match the Chrome version numbering, so download the appropriate driver and place it in the same folder as the Python script. NOTE: You should obviously modify these instructions based on your browser - there are drivers for Safari, Firefox, etc. Adjust accordingly.
+## To-Do
+- [X] accept a list of domains & ports in CSV format to pass through, to quickly allow the creation of multiple entries
 
-- Modify the script to point to the path where the Chromedriver is located - I chose to copy mine to /usr/local/bin, but it can work just as well from within the same folder. Use absolute paths when specifying.
+- [ ] refactor, better organize and clean-up the code
+    - Add in functions for create, delete & list hosts
+    - Programmatically/semi-automatically generate a token
+    - More dynamic menus, prompting for base domain URL, dynamic CSV filename and other options
+        - Store these as values in the .env file
+- [X] further investigate the API located at /api/schema, and submit a PR for documentation of it
+    - [Issue raised](https://github.com/NginxProxyManager/nginx-proxy-manager/issues/3749#issuecomment-2107483394)
+- [ ] adjust code to perform more than one operation (i.e. CRUD on more than one host)
 
-- This was written on MacOS, but there's no reason it shouldn't work on Windows or Linux. Testing on those is TBD.
-
-## To-Do:
-- [ ] accept a list of domains & ports in CSV format to pass through, to quickly allow the creation of multiple entries
-
-- [ ] automatically look for Selenium webdriver files and, if not found, offer to automatically download them
-
-- [ ] refactor, better organize and clean-up the code; maybe some loops or logic can be used to click through multiple elements?
-
-- [ ] prompt for a server ID (statically and/or dynamically)
-
-- [ ] further investigate the API located at /api/schema, and submit a PR for documentation of it.
-
-## References:
-https://stackoverflow.com/questions/47158434/how-to-run-selenium-tests-on-the-brave-web-browser
+## References
+- Portions of this code were generated using ChatGPT
 
 All credits go to the original author of NPM. No copyright or trademark infringement is intended.
