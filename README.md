@@ -37,6 +37,8 @@ Automate the ability to create proxy hosts within NPM using the built-in API and
         ```
         - This can be ommitted if Let'sEncrypt is used instead
     - DOMAIN_NAME - your registered domain name, i.e. example.com
+    - Before moving forward, set the permissions for this .env file to 600 - this is for security and will prevent anyone other than the user from read/writing it.
+        - `chmod 600 .env` from within the directory with the .env file
 3. Create a `proxy_hosts.csv` file containing the following:
     ```
     subdomain,schema,container_name,port
