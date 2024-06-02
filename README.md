@@ -32,7 +32,7 @@ Automate the ability to create proxy hosts within NPM using the built-in API and
         ```
         - Optionally, pipe the output through `jq` to parse just the certificate ID:
         ```
-        curl --location 'https://npm.kadaranwar.com/api/nginx/certificates' \
+        curl --location 'https://yournpmurl.domain.com/api/nginx/certificates' \
         --header 'Authorization: Bearer <BEARER_AUTH_TOKEN_HERE>' | jq '.[] | {id}'
         ```
         - This can be ommitted if Let'sEncrypt is used instead
