@@ -10,7 +10,8 @@ Automate the ability to create proxy hosts within NPM using the built-in API and
     - I am also using NPM via Docker, with 80, 81 and 443 exposed
 2. User account created in NPM
 3. API key created against the user account in #2 - if not already generated, guidance is provided below
-4. The python-dotenv library (can be installed using *pip*)
+4. The python-dotenv library. After [installing pip](https://pip.pypa.io/en/stable/installation/), issue the following:
+   `python3.10 -m pip install python-dotenv`
 
 ## Usage
 1. Clone this repository and create a .env file in the same folder
