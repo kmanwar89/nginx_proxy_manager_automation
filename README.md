@@ -36,7 +36,7 @@ Automate the ability to create proxy hosts within NPM using the built-in API and
         curl --location 'https://yournpmurl.domain.com/api/nginx/certificates' \
         --header 'Authorization: Bearer <BEARER_AUTH_TOKEN_HERE>' | jq '.[] | {id}'
         ```
-        - This can be ommitted if Let'sEncrypt is used instead
+        - This can be ommitted if Let's Encrypt is used instead
     - DOMAIN_NAME - your registered domain name, i.e. example.com
     - Before moving forward, set the permissions for this .env file to 600 - this is for security and will prevent anyone other than the user from read/writing it.
         - `chmod 600 .env` from within the directory with the .env file

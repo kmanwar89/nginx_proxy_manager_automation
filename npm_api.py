@@ -73,13 +73,33 @@ def create_host():
             
             # #Make API call to create proxy host
             response = requests.post(url, json=data, headers={"Authorization":f"Bearer {api_key}"})
-            # response = requests.post(url, json=data, headers=headers)
-            
-            if response.status_code in (200,201):
-                print(f"Proxy host for {sub}.kadaranwar.com created successfully")
+
+            # Status code explanations
+            status_code_explanations = {
+                200: "OK: The request was successful.",
+                201: "Created: The request was successful and a resource was created.",
+                400: "Bad Request: The request was invalid or cannot be otherwise served.",
+                401: "Unauthorized: Authentication is required and has failed or has not yet been provided.",
+                403: "Forbidden: The request was valid, but the server is refusing action.",
+                404: "Not Found: The requested resource could not be found.",
+                405: "Method Not Allowed: A request method is not supported for the requested resource.",
+                408: "Request Timeout: The server timed out waiting for the request.",
+                500: "Internal Server Error: An error has occurred in the server.",
+                502: "Bad Gateway: The server was acting as a gateway or proxy and received an invalid response from the upstream server.",
+                503: "Service Unavailable: The server is not ready to handle the request. Common causes are a server that is down for maintenance or that is overloaded.",
+                504: "Gateway Timeout: The server was acting as a gateway or proxy and did not receive a timely response from the upstream server."
+            }
+
+            # Handle response
+            if response.status_code in status_code_explanations:
+                print(f"HTTP {response.status_code}: {status_code_explanations[response.status_code]}")
+                if response.status_code in (200, 201):
+                    print(f"Proxy host for {sub}.kadaranwar.com created successfully")
+                else:
+                    print(f"There was an error in creating proxy host for {sub}.kadaranwar.com. The returned status code was: {response.status_code}.")
             else:
-                print(f"Error creating proxy host for {sub}.kadaranwar.com. Status code: {response.status_code}")
-                        
+                print(f"Received unexpected status code: {response.status_code}.")
+
 def main():
     create_host()
 
