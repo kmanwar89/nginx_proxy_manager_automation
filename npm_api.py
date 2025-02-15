@@ -1,9 +1,16 @@
-# Purpose: Leverage NPM API and Python requests library to
-# programmatically create new hosts in NPM
+# Purpose: Leverage NPM API and Python requests library to programmatically create new hosts in NPM
 # Programmer: Kadar Anwar
 # Language: Python 3.10.12
 # Filename: npm_api_automation.py
 # Date: 19 MAY 2024
+
+# ---------
+# Changelog
+# ---------
+#
+# 19 MAY 2024 - v0.1 - initial code re-write
+# 14 FEB 2025 - v0.2 - hardcoded my domain name in command outpu; substitute {domain_name} from the .env file instead
+#                    - fixing documentation for new token request behavior
 
 import csv
 import requests
@@ -94,9 +101,9 @@ def create_host():
             if response.status_code in status_code_explanations:
                 print(f"HTTP {response.status_code}: {status_code_explanations[response.status_code]}")
                 if response.status_code in (200, 201):
-                    print(f"Proxy host for {sub}.kadaranwar.com created successfully")
+                    print(f"Proxy host for {sub}.{domain_name}.com created successfully")
                 else:
-                    print(f"There was an error in creating proxy host for {sub}.kadaranwar.com. The returned status code was: {response.status_code}.")
+                    print(f"There was an error in creating proxy host for {sub}.{domain_name}.com. The returned status code was: {response.status_code}.")
             else:
                 print(f"Received unexpected status code: {response.status_code}.")
 
