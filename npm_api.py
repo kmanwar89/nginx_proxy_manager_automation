@@ -10,11 +10,12 @@
 #
 # 19 MAY 2024 - v0.1 - initial code re-write
 # 14 FEB 2025 - v0.2 - hardcoded my domain name in command outpu; substitute {domain_name} from the .env file instead
-#                    - fixing documentation for new token request behavior
+#                    - fixing README for new token request behavior
 
 import csv
 import requests
 import os
+import json
 from dotenv import load_dotenv
 
 # Securely read in environment variables using .env files;
@@ -23,7 +24,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 api_key = os.getenv('API_KEY')
-base_url = os.getenv('BASE_URL')
+admin_url = os.getenv('ADMIN_URL')
 certificate_id = os.getenv('CERTIFICATE')
 domain_name = os.getenv('DOMAIN_NAME')
 
@@ -33,7 +34,7 @@ def create_host():
         csv_reader = csv.reader(file)
         
         for row in csv_reader:
-            print (row)
+#            print (row)
             
             # Extracting values from CSV
             sub = row[0]
@@ -42,8 +43,8 @@ def create_host():
             port = row[3]
             
             # Constructing URL for proxy host creation
-            url = f"{base_url}/api/nginx/proxy-hosts"
-            
+            url = f"{admin_url}/api/nginx/proxy-hosts"
+        
             # Data for the API call - not all values are used, un-comment accordingly
             data = {
                 "domain_names": [sub+'.'+domain_name],
@@ -73,19 +74,23 @@ def create_host():
             "Content-Type": "application/json"
             }
             
-            # Debugs can be un-commented for troubleshooting
-            #print("Payload to be sent is:")
-            #print(url)
-            #print(data)
+            # Prettify JSON for debugging output
+            pretty_data = json.dumps(data, indent=4)
             
-            # #Make API call to create proxy host
+            # Debugs can be un-commented for troubleshooting
+            # print("======")
+            # print("Payload to be sent to URL:"+' ' + url)
+            # print("======")
+            # print(pretty_data)
+
+            #Make API call to create proxy host
             response = requests.post(url, json=data, headers={"Authorization":f"Bearer {api_key}"})
 
             # Status code explanations
             status_code_explanations = {
                 200: "OK: The request was successful.",
                 201: "Created: The request was successful and a resource was created.",
-                400: "Bad Request: The request was invalid or cannot be otherwise served.",
+                400: "Bad Request: The request was invalid or cannot be otherwise served - this may mean the proxy host already exists, or there is an error in the CSV file.",
                 401: "Unauthorized: Authentication is required and has failed or has not yet been provided.",
                 403: "Forbidden: The request was valid, but the server is refusing action.",
                 404: "Not Found: The requested resource could not be found.",
@@ -101,9 +106,9 @@ def create_host():
             if response.status_code in status_code_explanations:
                 print(f"HTTP {response.status_code}: {status_code_explanations[response.status_code]}")
                 if response.status_code in (200, 201):
-                    print(f"Proxy host for {sub}.{domain_name}.com created successfully")
+                    print(f"Proxy host for {sub}.{domain_name} created successfully")
                 else:
-                    print(f"There was an error in creating proxy host for {sub}.{domain_name}.com. The returned status code was: {response.status_code}.")
+                    print(f"There was an error in creating proxy host for {sub}.{domain_name} The returned status code was: {response.status_code}.")
             else:
                 print(f"Received unexpected status code: {response.status_code}.")
 
