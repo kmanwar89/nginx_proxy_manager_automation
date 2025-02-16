@@ -18,16 +18,16 @@ Automate the ability to create proxy hosts within NPM using the built-in API and
 2. Generate an API token - this can be using Postman, cURL, or another RESTful API tool of your choice (I recommend the [ThunderClient](https://www.thunderclient.com/) VSCode extension). An example request is shown in the screenshot below:
 
 #### **Headers:**
-![headers](<Screenshot 2025-02-15 at 3.48.07 AM.png>)
+![headers](<headers.png>)
 
 #### **Request body:**
-![request body](<Screenshot 2025-02-15 at 3.46.49 AM.png>)
+![request body](<request.png>)
 
 **Note**: If no expiry value is specified, NPM appears to use a default value of 30 hours
 
 3. The generated response will contain a Bearer token in JWT format that can be used for subsequent authenticated actions:
 
-![alt text](<Screenshot 2025-02-15 at 3.53.52 AM.png>)
+![alt text](<jwt.png>)
 
 4. Fill out the following fields in the .env file:
     - API_KEY - token generated above

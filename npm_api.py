@@ -9,8 +9,7 @@
 # ---------
 #
 # 19 MAY 2024 - v0.1 - initial code re-write
-# 14 FEB 2025 - v0.2 - hardcoded my domain name in command outpu; substitute {domain_name} from the .env file instead
-#                    - fixing README for new token request behavior
+# 14 FEB 2025 - v0.2 - removed hardcoded domain name in command output; substitute {domain_name} from the .env file instead
 
 import csv
 import requests
